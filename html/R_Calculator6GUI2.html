@@ -1,0 +1,316 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>R_Calculator6GUI2</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-05-13"><meta name="DC.source" content="R_Calculator6GUI2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%Developed by Osama M. Elsaman</span>
+<span class="comment">% this tool is used to calculate the epitrochoid geometry for rotary engine</span>
+<span class="comment">% Rotors on the bases of eccenricity and Rotor area required</span>
+
+<span class="keyword">function</span> R_Calculator_GUI()
+
+<span class="comment">% Create the GUI</span>
+fig = uifigure(<span class="string">'Name'</span>, <span class="string">'R Calculator'</span>, <span class="string">'Position'</span>, [100 100 500 500]);
+
+<span class="comment">% Add text boxes for e and a_ref values</span>
+e_label = uilabel(fig, <span class="string">'Text'</span>, <span class="string">'Value of e'</span>, <span class="string">'Position'</span>, [50 420 80 30]);
+e_textbox = uieditfield(fig, <span class="string">'numeric'</span>, <span class="string">'Position'</span>, [150 420 80 30]);
+a_ref_label = uilabel(fig, <span class="string">'Text'</span>, <span class="string">'Value of a_ref'</span>, <span class="string">'Position'</span>, [50 370 80 30]);
+a_ref_textbox = uieditfield(fig, <span class="string">'numeric'</span>, <span class="string">'Position'</span>, [150 370 80 30]);
+
+<span class="comment">% Add a panel for the plot</span>
+plot_panel = uipanel(fig, <span class="string">'Title'</span>, <span class="string">'Resultant Curve'</span>, <span class="string">'Position'</span>, [50 200 400 150]);
+
+<span class="comment">% Add a button to calculate R</span>
+calculate_button = uibutton(fig, <span class="string">'push'</span>, <span class="string">'Text'</span>, <span class="string">'Calculate R'</span>, <span class="string">'Position'</span>, [50 50 100 30], <span class="string">'ButtonPushedFcn'</span>, @(calculate_button,event)calculate_R(e_textbox.Value, a_ref_textbox.Value, plot_panel, fig));
+
+<span class="comment">% Add a button to export x and y values</span>
+export_button = uibutton(fig, <span class="string">'push'</span>, <span class="string">'Text'</span>, <span class="string">'Export to Excel'</span>, <span class="string">'Position'</span>, [200 50 100 30], <span class="string">'ButtonPushedFcn'</span>, @(export_button,event)export_excel(getappdata(fig, <span class="string">'x_values'</span>), getappdata(fig, <span class="string">'y_values'</span>), getappdata(fig, <span class="string">'R'</span>), fig));
+
+<span class="comment">% Add a label to display the value of R</span>
+R_label = uilabel(fig, <span class="string">'Text'</span>, <span class="string">'Value of R:'</span>, <span class="string">'Position'</span>, [50 120 70 30]);
+R_value_label = uilabel(fig, <span class="string">'Text'</span>, <span class="string">''</span>, <span class="string">'Position'</span>, [130 120 50 30]);
+
+<span class="comment">% Add a label to display the name of the Developer</span>
+D_OSAMA = uilabel(fig, <span class="string">'Text'</span>, <span class="string">'Devoloped by: OSAMA M. ELSAMAN'</span>, <span class="string">'Position'</span>, [50 10 300 30]);
+
+<span class="comment">% Define variables for x and y values and R</span>
+x_values = [];
+y_values = [];
+R = 76.7075015111693;
+
+    <span class="keyword">function</span> calculate_R(e, a_ref, plot_panel, fig)
+        <span class="comment">% Define the variables</span>
+        R_0 = 76.7075015111693; <span class="comment">% Initial value of R</span>
+        a_0 = 20501.275296; <span class="comment">% Initial value of a at R_0</span>
+        C = 0.891759956599593; <span class="comment">% Correction factor</span>
+        tolerance = 0.1; <span class="comment">% Tolerance for difference in a values</span>
+
+        <span class="comment">% Define the functions for x and y values</span>
+        theta_range = 0:1:1080; <span class="comment">% Range of theta values</span>
+        theta_range = deg2rad(theta_range); <span class="comment">% Convert to radians</span>
+        x_func = @(theta, R) e*sin(theta) + R*sin(theta/3);
+        y_func = @(theta, R) e*cos(theta) + R*cos(theta/3);
+
+        <span class="comment">% Define the function for calculating the area</span>
+        area_func = @(x, y, R) 0;
+        x_values = x_func(theta_range, R_0);
+        y_values = y_func(theta_range, R_0);
+        area = C * sum(area_func(x_values, y_values, R_0));
+
+        <span class="comment">% Loop to find the value of R and plot the curve</span>
+        R = R_0;
+        a = a_0;
+        <span class="keyword">while</span> abs(a - a_ref) &gt; tolerance
+            R_last = R; <span class="comment">% Store the last value of R</span>
+            a_last = a; <span class="comment">% Store the last value of a</span>
+            R = R + 0.1; <span class="comment">% Increment R by 0.1</span>
+            x_values = x_func(theta_range, R);
+            y_values = y_func(theta_range, R);
+            area_val = 0; <span class="comment">% New variable to store area of each trapezoid</span>
+            <span class="keyword">for</span> i = 1:length(x_values)-1
+                area_val = area_val + 0.5*(y_values(i)+y_values(i+1))*(x_values(i+1)-x_values(i));
+            <span class="keyword">end</span>
+            a = C * (area + area_val*(R/R_0)); <span class="comment">% Calculate a for current R</span>
+            <span class="keyword">if</span> a &gt; a_ref <span class="comment">% If a is greater than a_ref, go back to last value of R</span>
+              <span class="comment">% Interpolate the value of R</span>
+                R_interp = R_last + (R - R_last) * (a_ref - a_last) / (a - a_last);
+                R = R_interp;
+                x_values = x_func(theta_range, R);
+                y_values = y_func(theta_range, R);
+                area_val = 0; <span class="comment">% New variable to store area of each trapezoid</span>
+                <span class="keyword">for</span> i = 1:length(x_values)-1
+                    area_val = area_val + 0.5*(y_values(i)+y_values(i+1))*(x_values(i+1)-x_values(i));
+                <span class="keyword">end</span>
+                a = C * (area + area_val*(R/R_0)); <span class="comment">% Calculate a for current R</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Plot the curve</span>
+        plot_axes = uiaxes(plot_panel, <span class="string">'Position'</span>, [10 10 380 130]);
+        plot(plot_axes, x_values, y_values);
+        xlim(plot_axes, [-10 10]);
+        ylim(plot_axes, [-10 10]);
+        title(plot_axes, <span class="string">'Resultant Curve'</span>);
+
+        <span class="comment">% Update the value of R in the GUI</span>
+        set(R_value_label, <span class="string">'Text'</span>, num2str(R));
+
+        <span class="comment">% Store the x and y values and R in the app data</span>
+        setappdata(fig, <span class="string">'x_values'</span>, x_values);
+        setappdata(fig, <span class="string">'y_values'</span>, y_values);
+        setappdata(fig, <span class="string">'R'</span>, R);
+    <span class="keyword">end</span>
+
+    <span class="keyword">function</span> export_excel(x_values, y_values, R, fig)
+        <span class="comment">% Create a table of x and y values</span>
+        data = [x_values', y_values'];
+        column_names = {<span class="string">'x'</span>, <span class="string">'y'</span>};
+        table_data = array2table(data, <span class="string">'VariableNames'</span>, column_names);
+
+        <span class="comment">% Create a file dialog to choose a filename and location to save the file</span>
+        [filename, pathname] = uiputfile(<span class="string">'.xlsx'</span>, <span class="string">'Save As'</span>);
+        <span class="keyword">if</span> isequal(filename,0) || isequal(pathname,0)
+            <span class="comment">% User cancelled the save operation</span>
+            <span class="keyword">return</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Write the table to an Excel file</span>
+        filepath = fullfile(pathname, filename);
+        writetable(table_data, filepath);
+
+        <span class="comment">% Display a message box to confirm the export</span>
+        message = sprintf(<span class="string">'x and y values exported to %s'</span>, filepath);
+        uialert(fig, message, <span class="string">'Export Successful'</span>);
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%Developed by Osama M. Elsaman
+% this tool is used to calculate the epitrochoid geometry for rotary engine
+% Rotors on the bases of eccenricity and Rotor area required
+
+function R_Calculator_GUI()
+
+% Create the GUI
+fig = uifigure('Name', 'R Calculator', 'Position', [100 100 500 500]);
+
+% Add text boxes for e and a_ref values
+e_label = uilabel(fig, 'Text', 'Value of e', 'Position', [50 420 80 30]);
+e_textbox = uieditfield(fig, 'numeric', 'Position', [150 420 80 30]);
+a_ref_label = uilabel(fig, 'Text', 'Value of a_ref', 'Position', [50 370 80 30]);
+a_ref_textbox = uieditfield(fig, 'numeric', 'Position', [150 370 80 30]);
+
+% Add a panel for the plot
+plot_panel = uipanel(fig, 'Title', 'Resultant Curve', 'Position', [50 200 400 150]);
+
+% Add a button to calculate R
+calculate_button = uibutton(fig, 'push', 'Text', 'Calculate R', 'Position', [50 50 100 30], 'ButtonPushedFcn', @(calculate_button,event)calculate_R(e_textbox.Value, a_ref_textbox.Value, plot_panel, fig));
+
+% Add a button to export x and y values
+export_button = uibutton(fig, 'push', 'Text', 'Export to Excel', 'Position', [200 50 100 30], 'ButtonPushedFcn', @(export_button,event)export_excel(getappdata(fig, 'x_values'), getappdata(fig, 'y_values'), getappdata(fig, 'R'), fig));
+
+% Add a label to display the value of R
+R_label = uilabel(fig, 'Text', 'Value of R:', 'Position', [50 120 70 30]);
+R_value_label = uilabel(fig, 'Text', '', 'Position', [130 120 50 30]);
+
+% Add a label to display the name of the Developer
+D_OSAMA = uilabel(fig, 'Text', 'Devoloped by: OSAMA M. ELSAMAN', 'Position', [50 10 300 30]);
+
+% Define variables for x and y values and R
+x_values = [];
+y_values = [];
+R = 76.7075015111693;
+
+    function calculate_R(e, a_ref, plot_panel, fig)
+        % Define the variables
+        R_0 = 76.7075015111693; % Initial value of R
+        a_0 = 20501.275296; % Initial value of a at R_0
+        C = 0.891759956599593; % Correction factor
+        tolerance = 0.1; % Tolerance for difference in a values
+        
+        % Define the functions for x and y values
+        theta_range = 0:1:1080; % Range of theta values
+        theta_range = deg2rad(theta_range); % Convert to radians
+        x_func = @(theta, R) e*sin(theta) + R*sin(theta/3);
+        y_func = @(theta, R) e*cos(theta) + R*cos(theta/3);
+        
+        % Define the function for calculating the area
+        area_func = @(x, y, R) 0;
+        x_values = x_func(theta_range, R_0);
+        y_values = y_func(theta_range, R_0);
+        area = C * sum(area_func(x_values, y_values, R_0));
+        
+        % Loop to find the value of R and plot the curve
+        R = R_0;
+        a = a_0;
+        while abs(a - a_ref) > tolerance
+            R_last = R; % Store the last value of R
+            a_last = a; % Store the last value of a
+            R = R + 0.1; % Increment R by 0.1
+            x_values = x_func(theta_range, R);
+            y_values = y_func(theta_range, R);
+            area_val = 0; % New variable to store area of each trapezoid
+            for i = 1:length(x_values)-1
+                area_val = area_val + 0.5*(y_values(i)+y_values(i+1))*(x_values(i+1)-x_values(i));
+            end
+            a = C * (area + area_val*(R/R_0)); % Calculate a for current R
+            if a > a_ref % If a is greater than a_ref, go back to last value of R
+              % Interpolate the value of R
+                R_interp = R_last + (R - R_last) * (a_ref - a_last) / (a - a_last);
+                R = R_interp;
+                x_values = x_func(theta_range, R);
+                y_values = y_func(theta_range, R);
+                area_val = 0; % New variable to store area of each trapezoid
+                for i = 1:length(x_values)-1
+                    area_val = area_val + 0.5*(y_values(i)+y_values(i+1))*(x_values(i+1)-x_values(i));
+                end
+                a = C * (area + area_val*(R/R_0)); % Calculate a for current R
+            end
+        end
+        
+        % Plot the curve
+        plot_axes = uiaxes(plot_panel, 'Position', [10 10 380 130]);
+        plot(plot_axes, x_values, y_values);
+        xlim(plot_axes, [-10 10]);
+        ylim(plot_axes, [-10 10]);
+        title(plot_axes, 'Resultant Curve');
+        
+        % Update the value of R in the GUI
+        set(R_value_label, 'Text', num2str(R));
+        
+        % Store the x and y values and R in the app data
+        setappdata(fig, 'x_values', x_values);
+        setappdata(fig, 'y_values', y_values);
+        setappdata(fig, 'R', R);
+    end
+
+    function export_excel(x_values, y_values, R, fig)
+        % Create a table of x and y values
+        data = [x_values', y_values'];
+        column_names = {'x', 'y'};
+        table_data = array2table(data, 'VariableNames', column_names);
+        
+        % Create a file dialog to choose a filename and location to save the file
+        [filename, pathname] = uiputfile('.xlsx', 'Save As');
+        if isequal(filename,0) || isequal(pathname,0)
+            % User cancelled the save operation
+            return
+        end
+        
+        % Write the table to an Excel file
+        filepath = fullfile(pathname, filename);
+        writetable(table_data, filepath);
+        
+        % Display a message box to confirm the export
+        message = sprintf('x and y values exported to %s', filepath);
+        uialert(fig, message, 'Export Successful');
+    end
+
+end
+##### SOURCE END #####
+--></body></html>
