@@ -1,6 +1,7 @@
 Epitrochoid Geometry Calculator for Rotary Engines
 This MATLAB script calculates the epitrochoid geometry for rotary engines based on the values of eccentricity and the rotor area required.
-
+Versions
+R_Calculator6GUI2.m is the final version with the GUI
 Installation
 Clone the repository or download the R_Calculator_GUI.m file.
 Open the file in MATLAB.
